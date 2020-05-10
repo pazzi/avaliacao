@@ -1,0 +1,205 @@
+.titulocor {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #4F4F4F;
+    font-weight: bold;
+}
+
+.textomedio {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #4F4F4F;
+    text-align: left;
+    line-height: 20px;
+}
+
+.textoazulclaro {
+    color: #1E90FF;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    color: #1E90FF;
+    text-align: left;
+    line-height: 20px;
+}
+
+.textoazul {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #0000CD;
+    text-align: justify;
+    line-height: 25px;
+}
+
+
+.textobold {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #4F4F4F;
+    text-align: left;
+    line-height: 20px;
+    font-weight: bold;
+}
+
+
+.tabela {
+    border: thin solid #FFFFFF;
+    background-color: aqua;
+}
+
+A:link { 
+    color: #0000FF;
+    text-decoration: none;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+}
+
+A:linkestag {
+    color: #F00000;
+    text-decoration: none;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+}
+
+A:visited { /*color: #29428C;*/
+    color: #0000FF;
+    text-decoration: none;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+}
+
+A:hover {
+    color: #0084C4;
+    text-decoration: underline;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+A:active {
+    color: #0084C4;
+    text-decoration: underline;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+
+.tituloaviso {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: small;
+    color: #D73E35;
+    font-weight: bold;
+}
+
+.titulomsg {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: x-small;
+    color: #D73E35;
+    font-weight: bold;
+}
+
+.textobrigatorio {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: x-small;
+    color: #191970;
+    font-weight: bold;
+}
+
+.subtitulo {
+    background-color: #DCDCDC;
+    line-height: 25px;
+}
+
+.subtitulo_tarja { 
+    background-color: #1874CD;
+    //#379BFF;
+    line-height: 18px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #FFFFFF;
+    font-weight: bold;
+    padding: 5px;
+}
+
+.subtitulo_tarja_esc {
+    background-color: #29428C;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 12px;
+    color: #FFFFFF;
+    line-height: 12px;
+    padding: 5px;
+}
+
+.subtitulo_tarja_escura {
+    background-color: #1874CD;//#009ACD;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 12px;
+    color: #FFFFFF;
+    line-height: 20px;
+    padding: 5px;
+}
+
+.subtitulo_tarja_clara {
+    background-color: #6495ED;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 12px;
+    color: #FFFFFF;
+    line-height: 20px;
+    padding: 5px;
+}
+.textomemorial {
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #000080;
+    text-align: justify;
+    line-height: 25px;
+    border: 1px solid #B0C4DE;
+    background-color: #FFFAF0;
+    padding: 20px;
+
+}
+
+table{
+    background-color: #F8F8FF;//#E8E8E8;
+    border: 1px solid  	#B0C4DE;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #000080;
+    border: 1px solid  	#B0C4DE;
+    line-height: 25px;
+    padding: 10px;
+
+}
+
+table.bordasimples {
+    border-collapse: collapse;
+}
+
+table.bordasimples tr td {
+    border: 1px solid  	#B0C4DE;
+}
+table.td {
+    line-height: 30px;
+    padding: 10px;
+}
+
+table { page-break-inside:auto }
+tr    { page-break-inside:avoid; page-break-after:auto }
+thead { display:table-header-group }
+tfoot { display:table-footer-group }
+
+.celEscura {
+    background-color: #FFFFCC;
+}
+
+.celClara {
+    background-color: #C6E2FF;
+}
+
+.celWhite {
+    background-color: #FFFFFF;
+}
+
+.backgroundcolor {
+    background-color: #E8E8E8;
+}

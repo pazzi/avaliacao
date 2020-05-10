@@ -1,0 +1,73 @@
+<!--
+<html>
+<head>
+<META HTTP-EQUIV="Refresh" CONTENT="0; URL=http://www.cnpma.embrapa.br/desenv/avaliacao/2010/avaliacao">
+</head>
+-->
+
+<?
+include ("../../func_avalia.php3");
+setcookie('cookie_senha_aval');
+setcookie('cookie_user_aval');
+cabecalho();
+##***bandeira=1 libera o acesso, bandeira<>1 fecha o acesso e abre avaliacao";
+$bandeira="1";
+
+echo "<br>";
+echo "<br>";
+echo "Cadastramento de Clientes";
+if ($bandeira==1)
+ {
+   echo " - Acesso Liberado";
+ }
+  else
+       {
+        echo "<br>";
+        echo "<a href=../avaliacao>Acesse a avaliacao</a>";
+        echo "<br>";
+        echo "<br>";
+        exit();
+      }
+
+
+   echo  "<h3>Avaliação  de Competencias - Escolha de Clientes</h3>";
+   print "<form  action=\"empr_mostra.php3\" method=\"POST\">\n";
+   echo "<center><table class=\"table\">";
+      echo  "<tr><td>";
+      echo "Login:";
+      echo "</td>\n";
+      echo "<td>\n";
+      echo "<input type=\"text\" name=\"user\" size=\"15\" style=\"font-size: 10pt\"></td>";
+      echo "<tr>\n";
+      echo "</tr>\n";
+      echo "<tr>\n";
+      echo "<td>\n";
+      echo "Senha:";
+      echo "</td>\n";
+      echo "<td>\n";
+      echo "<input type=\"password\" name=\"password\" size=\"15\" style=\"font-size: 10pt\">";
+      echo "<input type=\"hidden\" name=\"checksenha\" value=\"0\">";
+      echo "</td></tr>";
+      echo "<tr><td>";
+      echo "<input type=\"submit\" name=\"BEentra\" value=\"Entrar\">";
+      echo "</td>\n";
+      echo "</tr>";
+      echo "</table>";
+      echo "</center>";
+   echo "</form>";
+   echo "<br>";
+   echo "<br>";
+   echo "<center>";
+   echo "<table>";
+   echo "<tr>";
+   echo "<td colspan=3 align=center>";
+   echo "<a href=/intranet/>Voltar</a>";
+   echo "</td>";
+   echo "</tr>";
+   echo "</table></center>";
+   print "<br>";
+
+
+rodape();
+ ?>
+</html>

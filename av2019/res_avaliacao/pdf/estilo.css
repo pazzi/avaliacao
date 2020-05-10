@@ -1,0 +1,64 @@
+.inicio{
+        font-family: Arial,Verdana, Helvetica, sans-serif;
+        font-size: 25px;
+        font-style: normal;
+        line-height: normal;
+        font-weight: bold;
+        font-variant: normal;
+        text-transform: none;
+        color: #000000;
+        position:absolute;
+        left:18cm;
+        right:11cm;
+        top:2cm;
+        }
+
+.texto{
+        font-family: Arial,Verdana, Helvetica, sans-serif;
+        font-size: 18px;
+        font-style: normal;
+        line-height: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        color: #000000;
+        position:absolute;
+        line-height:150%;
+        max-width:1500px;
+        margin-left:2cm;
+        margin-right:7cm;
+        }
+
+.texto1{
+        font-family: Arial,Verdana, Helvetica, sans-serif;
+        font-size: 24px;
+        font-style: normal;
+        line-height: normal;
+        font-weight: bold;
+        font-variant: normal;
+        color: #000000;
+        }
+
+table,td,th {
+	border:1px solid black;
+        height:80px;
+
+	}
+table {
+	width:100%;
+        border-collapse:collapse;
+	}
+
+.fim{
+        font-family: Arial,Verdana, Helvetica, sans-serif;
+        font-size: 18px;
+        font-style: normal;
+        line-height: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        color: #000000;
+        position:absolute;
+        left:16cm;
+        }
+

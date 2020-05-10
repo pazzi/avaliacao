@@ -1,0 +1,532 @@
+<?php
+include ("../../func_avalia.php3");
+
+
+if (!$_GET["parm"])
+    {
+    $senha=$_POST["password"];
+    $user=$_POST["user"];
+    setcookie("cookie_senha_aval",$senha);
+    setcookie("cookie_user_aval",$user);
+    }
+     else
+         {
+           $password=$_COOKIE["cookie_senha_aval"];
+           $user=$_COOKIE["cookie_user_aval"];
+         }
+
+
+   $ret=authenticateUser($user, $password, $ip);
+   $cod_ret=substr($ret, 0, 1);
+   $stamp=substr($ret, 1, strlen($ret)-1);
+
+#$cod_ret=1;
+
+   if ($cod_ret == 0)
+   {
+    echo "<a href=./index.php>User-id ou Senha inválidos - entre novamente</a>";
+    exit();
+   }
+
+
+cabecalho();
+
+
+$sql_str="select matr,nome from empregados where email='$user'";
+$sql_matr=sql($BD1,"select matr,nome from empregados where email='$user'");
+$matr_ret=mysql_result($sql_matr,0,"matr"); 
+$nome=mysql_result($sql_matr,0,"nome"); 
+
+
+//*****************************
+
+$final="select matr,eaf,ecom,epp,n_ref,ref,tipo,obs from final where matr='$matr_ret' AND ano='$ANO_REF';";
+
+$final_str=sql("$BD3",$final);
+echo  "<br>\n";
+echo  "<br>\n";
+echo  "<center>\n";
+echo "<table border=\"0\" width=\"70%\" >\n";
+
+   echo "<tr color=\"#6580B1\">\n";
+   echo "<td colspan=2 align=\"center\" class=\"title\" >\n";
+   echo "Progressão Salarial - $ANO_AVAL (ref. $ANO_REF)";
+   echo "</td>\n";
+   echo "</tr>\n";
+
+echo "<tr bgcolor=\"#6580B1\">\n";
+echo "<td  colspan=\"2\" align=\"center\">\n";
+echo "<font color=\"#ffffff\">";
+echo $nome;
+echo "</font>\n";
+echo "</td>\n";
+echo "</tr>\n";
+
+$agrup_str="SELECT Tipos_Cargo.descricao
+            FROM elegiveis,final,Tipos_Cargo
+            WHERE elegiveis.matr=final.matr
+            AND final.matr='$matr_ret'
+            AND Tipos_Cargo.codigo_cargo=elegiveis.cargo;";
+$sql_agrup=sql($BD3,$agrup_str);
+$agrup_descr=mysql_result($sql_agrup,0,0);
+
+while ($lista12=mysql_fetch_row($final_str))
+ {
+   echo "<tr bgcolor=\"#e6e6e6\">\n";
+   echo "<td align=\"left\">\n";
+
+   echo "Agrupamento : ". $agrup_descr;
+   echo "</td>\n";
+   echo "<td align=\"center\">\n";
+   $matr=$lista12[0];
+   echo "Matrícula : ".$matr;
+   echo "</td>\n";
+   echo "</tr>\n";
+
+   echo "<tr bgcolor=\"#aaffcc\">\n";
+   echo "<td align=\"left\">\n";
+   echo "Agrupamento Funcional";
+   echo "</td>\n";
+   echo "<td align=\"center\">\n";
+
+
+  $str_agrup_saad_final="SELECT final.agrup 
+                    FROM final,elegiveis 
+                    WHERE final.ano='$ANO_REF'
+                    AND final.matr='$matr_ret'";
+   $result_agrup_saad_final=sql($BD3,$str_agrup_saad_final);  
+   $agrup_final= mysql_result($result_agrup_saad_final,0,0);
+
+
+  $str_agrup_saad="SELECT cnpma.agrupamento_saad.texto,cnpma.agrupamento_saad.id 
+                    FROM cnpma.agrupamento_saad,avaliacao.elegiveis 
+                    WHERE cnpma.agrupamento_saad.ano='$ANO_REF'
+                    AND cnpma.agrupamento_saad.id=avaliacao.elegiveis.agrup_saad 
+                    AND avaliacao.elegiveis.matr='$matr_ret'";
+   $result_agrup_saad=sql($BD3,$str_agrup_saad);  
+   $agrup= mysql_result($result_agrup_saad,0,0);
+   $agrup_id= mysql_result($result_agrup_saad,0,1);
+   echo mysql_result($result_agrup_saad,0,0);
+   echo "</td>\n";
+   echo "</tr>\n";
+
+
+   echo "<tr bgcolor=\"#ffffcc\">\n";
+   echo "<td align=\"left\">\n";
+   echo "EAF - Escore de avaliação final (SAAD)";
+   echo "</td>\n";
+   echo "<td align=\"center\">\n";
+    echo $lista12[1];
+#    echo $lista12[5];
+   echo "</td>\n";
+   echo "</tr>\n";
+
+
+   echo "<tr bgcolor=\"#aaffcc\">\n";
+   echo "<td align=\"left\">\n";
+   echo "ECom - Escore de competências não convertido";
+   echo "</td>\n";
+   echo "<td align=\"center\">\n";
+    echo $lista12[2];
+   echo "</td>\n";
+   echo "</tr>\n";
+
+
+   echo "<tr bgcolor=\"#ffffcc\">\n";
+   echo "<td align=\"left\">\n";
+   echo "EPP - Escore para Promoção";
+   echo "</td>\n";
+   echo "<td align=\"center\">\n";
+    echo $lista12[3];
+   echo "</td>\n";
+   echo "</tr>\n";
+
+   echo "<tr bgcolor=\"#aaffcc\">\n";
+   echo "<td align=\"left\">\n";
+   echo "Classificação no agrupamento funcional";
+   echo "</td>\n";
+   echo "<td align=\"center\">\n";
+   $res_class_sql=     "SELECT elegiveis.matr,final.epp 
+                        FROM final,elegiveis
+                        WHERE elegiveis.ano='$ANO_REF' 
+                        AND elegiveis.agrup_saad='$agrup_id'
+                        AND elegiveis.matr=final.matr
+                        AND elegiveis.ano=final.ano
+                        ORDER BY final.epp desc";
+   $res_class=sql($BD3,$res_class_sql); 
+   $cont_class=0;
+   while ($lis_class = mysql_fetch_row($res_class))
+       {
+        if ($lis_class[0] == $matr)
+           {
+            $cont_class++;
+            break;
+           } 
+             else
+                  {
+                    $cont_class++;
+                  }
+
+       }
+   echo $cont_class;
+   echo "</td>\n";
+   echo "</tr>\n";
+
+   echo "<tr bgcolor=\"#ffffcc\">\n";
+   echo "<td align=\"left\">\n";
+   echo "Número de referências salariais obtidas";
+   echo "</td>\n";
+   echo "<td align=\"center\">\n";
+   echo $lista12[4];
+   echo "</td>\n";
+   echo "</tr>\n";
+
+   echo "<tr bgcolor=\"#aaffcc\">\n";
+   echo "<td align=\"left\">\n";
+   echo "Nova referência salarial";
+   echo "</td>\n";
+
+   if ($lista12[6]=="e")
+      {
+        echo "<td align=\"center\">\n";
+        echo $lista12[5]; 
+        echo "</td>\n";
+      }
+        else
+             {
+               echo "<td align=\"center\">\n";
+               echo "<b>Empregado inelegível</b>";
+               echo "</td>\n";
+             }
+
+   echo "</td>\n";
+   echo "</tr>\n";
+
+   echo "<tr bgcolor=\"#aaffcc\">\n";
+   echo "<td align=\"left\">\n";
+   echo "Observacoes";
+   echo "</td>\n";
+   echo "<td align=\"center\">\n";
+   echo $lista12[7]; 
+   echo "</td>\n";
+   echo "</tr>\n";
+}
+
+echo "</table>\n";
+echo "</center>\n";
+
+echo "<center>\n";
+echo "<table width=\"70%\">\n";
+echo "<tr>\n";
+echo "<td>\n";
+echo "<u>Observa\xe7\xf5es:</u>";
+ echo "<br>\n";
+ echo "A varia\xe7\xe3o do <b>Ecom</b> \xe9 de 1 a 4.";
+ echo "<br>\n";
+echo "Com o  <b>Ecom</b> (Escore de compet\xeancias) e o <b>EAF</b> (Escore de avalia\xe7\xe3o final - SAAD) obtem-se o <b>EPP</b> - Escore
+de progress\xe3o salarial por m\xe9rito";
+ echo "<br>\n";
+echo "O c\xe1lculo do  <b>EPP</b>  -->  <i>EPP  = [(EAF x 80) + (Ecom convertido para a mesma base do EAF x 20)]/100</i>";
+ echo "</td>\n";
+ echo "</tr>\n";
+ echo "</table>\n";
+ echo "</center>\n";
+
+#$sql_dados="select (final.id) as id,max(eaf) as eaf_max,max(ecom) as ecom_max,max(epp),min(eaf),min(ecom), min(epp), avg(eaf), avg(ecom), avg(epp) from final where agrup='$agrup' and tipo='e' and ano='$ANO_REF';";
+
+$sql_dados="select count(final.id) as num,max(final.eaf) as eaf_max,max(final.ecom) as ecom_max,max(final.epp),min(final.eaf),min(final.ecom), min(final.epp), avg(final.eaf), avg(final.ecom), avg(final.epp)
+             from final
+             where final.agrup='$agrup_final'
+             and final.tipo='e' 
+             and final.ano='$ANO_REF';";
+
+$dados=sql("avaliacao",$sql_dados);
+
+echo "<br>\n";
+echo "<br>\n";
+echo "<center>\n";
+echo "<b> I N F O R M A C O E S &nbsp;&nbsp;&nbsp;&nbsp; A D I C I O N A I S</b>";
+echo "</center>\n";
+echo "<br>\n";
+
+
+echo "<center>\n";
+echo "<br>\n";
+echo "<b> EPPs e referencias de outros anos do empregado $nome</b>";
+$final_outros_anos="select matr,cargo,agrup,eaf,ecom,epp,n_ref,ref,tipo,obs,ano from final where matr='$matr_ret' order by ano;";
+$res_final_outros_anos=sql("$BD3",$final_outros_anos);
+
+echo "<table>\n";
+echo "<tr bgcolor=\"#ccff33\">\n";
+echo "<td>\n";
+echo "Ano";
+echo "</td>\n";
+echo "<td>\n";
+echo "EPP";
+echo "</td>\n";
+echo "<td>\n";
+echo "Referencias";
+echo "</td>\n";
+echo "</tr>\n";
+
+while ($lista_o_anos = mysql_fetch_row($res_final_outros_anos))
+{
+        echo "<tr>\n";
+        echo "<td bgcolor=\"#99cc99\">\n";
+        echo $lista_o_anos[10];
+        echo "</td>\n";
+        echo "<td bgcolor=\"#a8a8a8\">\n";
+        echo $lista_o_anos[5];
+        echo "</td>\n";
+        echo "<td bgcolor=\"#a8a8a8\" align=\"center\">\n";
+	    $ret_ref_rec=sql($BD3,"select n_ref from final where matr='$matr_ret' and ano='$lista_o_anos[10]'");
+        echo mysql_result($ret_ref_rec,0,0);
+        echo "</td>\n";
+        echo "</tr>\n";
+}
+echo "</table>\n";
+echo "</center>\n";
+echo "<br>";
+echo "<br>";
+
+
+echo "<center>\n";
+echo " D O &nbsp;&nbsp;A G R U P A M E N T O &nbsp;&nbsp;&nbsp; F U N C I O N A L";
+echo "</center>\n";
+echo "<center>\n";
+echo "<table border=\"0\" width=\"70%\" >\n";
+echo "<tr align=\"center\">\n";
+echo "<td colspan=\"4\" bgcolor=\"#ccff33\">\n";
+echo "Agrupamento ";
+#agrupamento($agrup);
+echo $agrup; 
+$num_empr_agrup=mysql_result($dados,0,0);
+echo "  com ". $num_empr_agrup . " empregados elegíveis";
+echo "</td>\n";
+echo "</tr>\n";
+
+echo "<tr bgcolor=\"33cc33\">\n";
+echo "<td>\n";
+echo "*******" ;
+echo "</td>\n";
+echo "<td align=\"center\">\n";
+echo "EAF [Obtido pelo SAAD]";
+echo "</td>\n";
+echo "<td align=\"center\">\n";
+echo "ECOM [Obtido pela Avaliação de Competências";
+echo "</td>\n";
+echo "<td align=\"center\">\n";
+echo "EPP [Obtido pelo ECOM convertido e EAF]" ;
+echo "</td>\n";
+echo "</tr>\n";
+
+echo "<tr>\n";
+echo "<td bgcolor=\"#99cc99\" align=\"center\">\n";
+echo "Maximo do agrupamento" ;
+echo "</td>\n";
+echo "<td bgcolor=\"#a8a8a8\" align=\"center\">\n";
+echo mysql_result($dados,0,1);
+echo "</td>\n";
+echo "<td bgcolor=\"#a8a8a8\" align=\"center\">\n";
+echo mysql_result($dados,0,2);
+echo "</td>\n";
+echo "<td bgcolor=\"#a8a8a8\" align=\"center\">\n";
+echo mysql_result($dados,0,3);
+echo "</td>\n";
+echo "</tr>\n";
+
+echo "<tr>\n";
+echo "<td bgcolor=\"#99cc99\" align=\"center\">\n";
+echo "Minimo do agrupamento" ;
+echo "</td>\n";
+echo "<td bgcolor=\"#a8a8a8\" align=\"center\">\n";
+echo mysql_result($dados,0,4);
+echo "</td>\n";
+echo "<td bgcolor=\"#a8a8a8\" align=\"center\">\n";
+echo mysql_result($dados,0,5);
+echo "</td>\n";
+echo "<td bgcolor=\"#a8a8a8\" align=\"center\">\n";
+echo mysql_result($dados,0,6);
+echo "</td>\n";
+echo "</tr>\n";
+
+echo "<tr>\n";
+echo "<td bgcolor=\"#99cc99\" align=\"center\">\n";
+echo "Medio do agrupamento" ;
+echo "</td>\n";
+echo "<td bgcolor=\"#a8a8a8\" align=\"center\">\n";
+echo round(mysql_result($dados,0,7),4);
+echo "</td>\n";
+echo "<td bgcolor=\"#a8a8a8\" align=\"center\">\n";
+echo round(mysql_result($dados,0,8),4);
+echo "</td>\n";
+echo "<td bgcolor=\"#a8a8a8\" align=\"center\">\n";
+echo round(mysql_result($dados,0,9),4);
+echo "</td>\n";
+echo "</tr>\n";
+echo "</table>\n";
+echo "</center>\n";
+echo "<br>";
+echo "<br>";
+echo "<center>";
+echo " D A &nbsp;&nbsp;U N I D A D E";
+echo "</center>";
+$sql_dados="select count(id) as id,max(eaf) as eaf_max,max(ecom) as ecom_max,max(epp),min(eaf),min(ecom), min(epp), avg(eaf), avg(ecom), avg(epp) from final where tipo='e' and ano='$ANO_REF';";
+$dados=sql("avaliacao",$sql_dados);
+
+echo "<center>\n";
+echo "<table border=\"0\" width=\"70%\" >\n";
+echo "<tr align=\"center\">\n";
+echo "<td colspan=\"4\" bgcolor=\"#ccaa33\">\n";
+echo "Médias da Unidade";
+echo "  com ". mysql_result($dados,0,0) . " empregados elegíveis";
+echo "</td>\n";
+echo "</tr>\n";
+
+echo "<tr bgcolor=\"33aa33\">\n";
+echo "<td>\n";
+echo "*******" ;
+echo "</td>\n";
+echo "<td>\n";
+echo "EAF [Obtido pelo SAAD]";
+echo "</td>\n";
+echo "<td>\n";
+echo "ECOM [Obtido pela Avaliação de Competências";
+echo "</td>\n";
+echo "<td>\n";
+echo "EPP [Obtido pelo ECOM convertido e EAF]" ;
+echo "</td>\n";
+echo "</tr>\n";
+
+echo "<tr>\n";
+echo "<td bgcolor=\"#99cc99\" align=\"center\">\n";
+echo "Maximo dos empregados elegíveis" ;
+echo "</td>\n";
+echo "<td bgcolor=\"#a8a8a8\" align=\"center\">\n";
+echo mysql_result($dados,0,1);
+echo "</td>\n";
+echo "<td bgcolor=\"#a8a8a8\" align=\"center\">\n";
+echo mysql_result($dados,0,2);
+echo "</td>\n";
+echo "<td bgcolor=\"#a8a8a8\" align=\"center\">\n";
+echo mysql_result($dados,0,3);
+echo "</td>\n";
+echo "</tr>\n";
+echo "<tr>\n";
+echo "<td bgcolor=\"#99cc99\" align=\"center\">\n";
+echo "Minimo dos empregados elegíveis" ;
+echo "</td>\n";
+echo "<td bgcolor=\"#a8a8a8\" align=\"center\">\n";
+echo mysql_result($dados,0,4);
+echo "</td>\n";
+echo "<td bgcolor=\"#a8a8a8\" align=\"center\">\n";
+echo mysql_result($dados,0,5);
+echo "</td>\n";
+echo "<td bgcolor=\"#a8a8a8\" align=\"center\">\n";
+echo mysql_result($dados,0,6);
+echo "</td>\n";
+echo "</tr>\n";
+echo "<tr>\n";
+echo "<td bgcolor=\"#99cc99\" align=\"center\">\n";
+echo "Medio dos empregados elegíveis" ;
+echo "</td>\n";
+echo "<td bgcolor=\"#a8a8a8\" align=\"center\">\n";
+echo round(mysql_result($dados,0,7),4);
+echo "</td>\n";
+echo "<td bgcolor=\"#a8a8a8\" align=\"center\">\n";
+echo round(mysql_result($dados,0,8),4);
+echo "</td>\n";
+echo "<td bgcolor=\"#a8a8a8\" align=\"center\">\n";
+echo round(mysql_result($dados,0,9),4);
+echo "</td>\n";
+echo "</tr>\n";
+echo "</table>\n";
+echo "</center>\n";
+echo "<br>";
+echo "<br>";
+
+echo "<br>\n";
+
+#$res_distr=sql($BD3,"SELECT agrup,n_ref, count( n_ref ) FROM `final` where agrup='$agrup_final' AND ano='$ANO_REF' AND tipo='e' GROUP BY agrup, n_ref");
+
+$res_distr=sql($BD3,"SELECT agrup,n_ref, count( n_ref ) FROM `final`, elegiveis where elegiveis.agrup_saad='$agrup_id' AND elegiveis.ano='$ANO_REF' AND tipo='e' AND final.matr= elegiveis.matr AND elegiveis.ano=final.ano GROUP BY agrup, n_ref");
+
+echo "<br>";
+echo "<center>";
+echo "<b>Q U A D R O &nbsp;&nbsp;D E&nbsp;&nbsp;D I S T R I B U I Ç Ã O &nbsp;&nbsp; D E &nbsp;&nbsp; R E F E R Ê N C I A S&nbsp;&nbsp; D O&nbsp;&nbsp; A G R U P A M E N T O</b>";
+echo "<br>";
+echo "<b>";
+echo $agrup;
+echo "</b>";
+echo "</center>";
+echo "<center>";
+echo "<table width=\"40%\">";
+echo "<tr bgcolor=\"#ccaa33\">";
+echo "<td align=\"center\">\n";
+echo "Numero de referencias";
+echo "</td>";
+echo "<td align=\"center\">\n";
+echo "Empregados contemplados";
+echo "</td>";
+echo "</tr>";
+while ($lis_dist=mysql_fetch_row($res_distr))
+   {
+     echo "<tr bgcolor=\"#ffff66\">\n";
+     echo "<td  width=\"50%\"align=\"center\">\n";
+     echo $lis_dist[1];
+     echo "</td>\n";
+     echo "<td width=\"50%\"align=\"center\">\n";
+     echo $lis_dist[2];
+     echo "</td>\n";
+     echo "</tr>\n";
+   }
+echo "</table>";
+echo "</center>";
+echo "<br>";
+echo "<br>";
+#$res_distr=sql($BD3,"SELECT n_ref, count( n_ref ) FROM `final`  WHERE tipo='e' and ano='$ANO_REF' AND n_ref<>'0' GROUP BY  n_ref");
+
+$res_distr=sql($BD3,"SELECT n_ref, count( n_ref ) FROM `final`  WHERE tipo='e' and ano='$ANO_REF'  GROUP BY  n_ref");
+
+echo "<br>";
+echo "<center>";
+echo "<b>Q U A D R O &nbsp;&nbsp;D E&nbsp;&nbsp;D I S T R I B U I Ç Ã O &nbsp;&nbsp; D E &nbsp;&nbsp; R E F E R Ê N C I A S&nbsp;&nbsp; D A&nbsp;&nbsp; U N I D A D E</b>";
+echo "</center>";
+echo "<center>";
+echo "<table width=\"40%\">";
+echo "<tr bgcolor=\"#ccaa33\">";
+echo "<td align=\"center\">\n";
+echo "Numero de referencias";
+echo "</td>";
+echo "<td align=\"center\">\n";
+echo "Empregados contemplados";
+echo "</td>";
+echo "</tr>";
+while ($lis_dist=mysql_fetch_row($res_distr))
+   {
+     echo "<tr bgcolor=\"#ffff66\">\n";
+     echo "<td  width=\"50%\"align=\"center\">\n";
+     echo $lis_dist[0];
+     echo "</td>\n";
+     echo "<td width=\"50%\"align=\"center\">\n";
+     echo $lis_dist[1];
+     echo "</td>\n";
+     echo "</tr>\n";
+   }
+echo "</table>";
+echo "</center>";
+echo "</br>";
+echo "</br>";
+
+
+
+echo "<br/>";
+echo "<br/>";
+echo "<center>";
+echo "<b>O NTI-Informática gostaria de saber sua opinião sobre a automação das rotinas de avaliação de competências, se puder colaborar por favor responda 
+ as <a href=\"https://spreadsheets.google.com/spreadsheet/viewform?formkey=dGplOGtRT1plOHM0VmlEV1Z3dWFXMlE6MQ\">questões</a>.";
+echo "<br>";
+echo "Muito obrigado</b>";
+echo "</center>";
+
+?>

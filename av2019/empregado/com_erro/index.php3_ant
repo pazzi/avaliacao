@@ -1,0 +1,51 @@
+<?
+include ("../../func_avalia.php3");
+setcookie('cookie_senha_aval');
+setcookie('cookie_user_aval');
+cabecalho();
+
+$dia=date(d);
+$mes=date(m);
+$ano=date(o);
+$hora=date(G);
+$minuto=date(i);
+$numero=$ano.$mes.$dia.$hora.$minuto;
+
+if ($numero >= 201703272400)
+   {
+     echo "Escolha de Pares encerrada";
+     exit();
+   }
+
+echo "<br>";
+echo "<br>";
+echo "Cadastramento de Pares/Clientes";
+
+   echo "<center>\n";
+   echo "<form  action=\"empr_mostra.php3\" method=\"POST\">\n";
+   echo "<fieldset>";
+   echo "<legend>Avaliacao de Competencias - Escolha de pares/clientes</legend>";
+   echo "<label>Login:</label>";
+   echo "<input type=\"text\" name=\"user\" size=\"15\" placeholder=\"Informe o Login\">";
+   echo "<br>";
+   echo "<label>Senha:</label>";
+   echo "<input type=\"password\" name=\"password\" size=\"15\" placeholder=\"Informe a senha\">";
+   echo "<input type=\"hidden\" name=\"checksenha\" value=\"0\">";
+   echo "<br>";
+   echo "<br>";
+   print "<button type=\"submit\" class=\"btn btn-primary\" name=\"BEentra\">Entrar</button>";
+   echo "</fieldset>";
+
+   echo "</form>";
+   echo "</center>\n";
+   echo "<br>";
+   echo "<br>";
+   echo "<center>";
+   echo "<a href=/intranet/>Voltar</a>";
+   echo "</center>";
+   print "<br>";
+
+
+rodape();
+ ?>
+</html>
