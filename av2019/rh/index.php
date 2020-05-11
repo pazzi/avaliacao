@@ -1,5 +1,5 @@
 <?php
-include ("../func_avalia.php3");
+include ("../func_avalia.php");
 setcookie('cookie_senha_aval');
 setcookie('cookie_user_aval');
 cabecalho($ANO_REF);

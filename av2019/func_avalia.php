@@ -1,7 +1,7 @@
-<?
+<?php
 include ("./config.inc");
 #include ("$VAR_FCS1/functions.php3");
-include ("/usr/local/www/data/intranet/nosso_ambiente/functions.php3");
+include ("/var/www/html/intranet/functions.php");
 ##############CONSTANTES USADAS NAS ROTINAS######################
 ###VARIAM ANO A ANO#############################################
 $ANO_REF=2019;
@@ -39,11 +39,11 @@ $BD5 = "ponto";
 function cabecalho($ano)
 {
 echo "<!DOCTYPE html>";
-echo "<html lang=\"en\">";
+echo "<html lang=\"pt-br\">";
     
 echo "<head>";
 echo "
-    <meta charset=\"ISO-8859-1\">
+    <meta charset=\"utf-8\">
     <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">
     <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
     <title></title>
@@ -63,7 +63,7 @@ global $VAR_PROGS;
 echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n";
 echo "<html>\n";
 echo "<head>\n";
-echo "<title>Bem-vindo ao Avaliação de Competencias</title>";
+echo "<title>Bem-vindo ao Avaliaï¿½ï¿½o de Competencias</title>";
 echo "<META HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; charset=ISO-8859-1\">\n";
 echo "<META HTTP-EQUIV=\"EXPIRES\" CONTENT=\"0\">\n";
 echo "<meta http-equiv=\"Content-Language\" content=\"pt-BR\">\n";
@@ -81,7 +81,7 @@ echo "<body>\n";
 
 echo "<center><table class=\"table\"><tr class=\"success\">\n";
 echo "<td align=\"center\">\n";
-echo "<b>A V A L I A Ç Ã O&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D E&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; C O M P E T E N C I A S&nbsp;&nbsp;</b>\n";
+echo "<b>A V A L I A ï¿½ ï¿½ O&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D E&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; C O M P E T E N C I A S&nbsp;&nbsp;</b>\n";
 echo "</td>\n";
 echo "</tr>\n";
 echo "</table></center>";
@@ -90,7 +90,7 @@ echo "</table></center>";
 
 function cabecalho_inter()
 {
-echo "<center><a href=\><font class=corpo><img src=\"/$VAR_IMAGEM/logomeioambiente.gif\" alt=\"Início - Embrapa Meio Ambiente\" WIDTH=\"530\" HEIGHT=\"85\" border=\"0\"></font></a></center>\n";
+echo "<center><a href=\><font class=corpo><img src=\"/$VAR_IMAGEM/logomeioambiente.gif\" alt=\"Inï¿½cio - Embrapa Meio Ambiente\" WIDTH=\"530\" HEIGHT=\"85\" border=\"0\"></font></a></center>\n";
 echo "<br>\n";
 }
 

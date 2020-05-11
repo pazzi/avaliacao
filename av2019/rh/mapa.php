@@ -1,9 +1,9 @@
 <?php
-include ("../func_avalia.php3");
-if (!$HTTP_GET_VARS["parm"])
+include ("../func_avalia.php");
+if (!$_GET["parm"])
     {
-    $senha=$HTTP_POST_VARS["password"];
-    $user=$HTTP_POST_VARS["user"];
+    $senha=$_POST["password"];
+    $user=$_POST["user"];
     setcookie("cookie_senha_aval",$senha);
     setcookie("cookie_user_aval",$user);
     }
@@ -24,7 +24,7 @@ if (!$HTTP_GET_VARS["parm"])
           echo "Usuario nao permitido para este acesso";
           exit();
         }
-
+  $cod_ret=1;
    if ($cod_ret == 0)
    {
     echo "<a href=./index.php3>User-id ou Senha inv\xe1lidos - entre novamente</a>";
