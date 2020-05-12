@@ -30,8 +30,7 @@ if (!$_GET["parm"])
     echo "<a href=./index.php3>User-id ou Senha inv\xe1lidos - entre novamente</a>";
     exit();
    }
-
-cabecalho();
+cabecalho($ANO_REF);
 echo "<center>";
 echo "<h3> Mapa dos acessos do SGP </h3>";
 echo "</center>";

@@ -1,5 +1,5 @@
 <?php
-include ("../func_avalia.php3");
+include ("../func_avalia.php");
 if ((!$_GET["ano"]) AND (!$_POST["TIano"]))
 		{
           		echo "Parametro ano deve ser passado na referencia - contate o suporte";
@@ -344,7 +344,7 @@ return;
 
 
  //**** BEGIN MAIN PROGRAM ****
-cabecalho();
+cabecalho(ANO_REF);
 echo "<h3>Administracao de agrupamentos ano base $ano</h3>";
 echo "<br>";
 echo "<a href=$REFERER/agrupamentos/agrup.php?parm=BAdd:::&ano=$ano>Novo agrupamento</a>";
